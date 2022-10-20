@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="en">
+<head th:replace="~{layout :: head}"></head>
+<body class="main-body" th:data-role="${#authentication.getAuthorities()}">
+<nav th:replace="~{layout :: navigation}"></nav>
+<header th:replace="~{layout :: header (${breadCrumbs})}"></header>
+<main>
+    <div class="grid-container customer-index">
+        <table>
+            <thead>
+            <tr>
+<!--                <th>Action</th>-->
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Sub Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cart: ${cart}">
+                </td>
+<!--                <input type="hidden" th:value="${buyer.transactionId}">-->
+                <td th:text="${cart.prodName}"></td>
+                <td th:text="${cart.quantity}"></td>
+                <td th:text="${cart.Unit}"></td>
+                <td th:text="${#numbers.formatCurrency(cart.subTotal)}"></td>
+            </tr>
+            </tr>
+            </tbody>
+        </table>
+        <div class="grid-container product-index" th:each="cart: ${cart}">
+            <h2>Total Price : <span th:text="${#numbers.formatCurrency(cart.totalPrice)}"></span></h2>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{layout :: footer}"></footer>
+<th:block th:replace="~{layout :: javascript}"></th:block>
+</body>
+</html>

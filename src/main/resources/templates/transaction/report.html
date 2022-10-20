@@ -1,0 +1,37 @@
+!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout :: head}"></head>
+<body class="main-body" th:data-role="${#authentication.getAuthorities()}">
+<nav th:replace="~{layout :: navigation}"></nav>
+<header th:replace="~{layout :: header (${breadCrumbs})}"></header>
+<main>
+    <div class="grid-tiles transactiom-index">
+        <form method="get" class="filter" th:attr="action=@{/transaction/report}">
+            <input type="text" name="transactionId" placeholder="Transaction Id..." th:attr="value=${trxCode}">
+            <button class="blue-button" type="submit">Search</button>
+        </form>
+        <div class="tiles-container">
+            <div class="tile" th:each="report : ${grid}" th:object="${report}">
+                <div class="name" th:text="*{trxCode}"></div>
+                <div class="price" th:text="${#numbers.formatCurrency(report.totalPrice)}"></div>
+                <div class="name" th:text="*{date}"></div>
+            </div>
+        </div>
+    </div>
+    <div class="pagination">
+        <div th:text="|page ${currentPage} of ${totalPages}|"></div>
+        <div th:if="${totalPages != 0}">
+            <a th:each="loop:${#numbers.sequence(1,totalPages)}"
+               th:href="@{/transaction/report(page=${loop},name=${trxCode},price=${totalPrice})}"
+               th:text="${loop}"></a>
+        </div>
+    </div>
+    </div>
+</main>
+<footer th:replace="~{layout :: footer}"></footer>
+<th:block th:replace="~{layout :: javascript}"></th:block>
+
+
+
+</body>
+</html>
